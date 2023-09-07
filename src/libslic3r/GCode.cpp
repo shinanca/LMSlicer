@@ -310,6 +310,10 @@ namespace Slic3r {
         gcode += tcr_gcode;
         check_add_eol(toolchange_gcode_str);
 
+        if (gcodegen.config().enable_pressure_advance.get_at(new_extruder_id)) {
+            gcode += gcodegen.writer().set_pressure_advance(gcodegen.config().pressure_advance.get_at(new_extruder_id));
+        }
+
         // A phony move to the end position at the wipe tower.
         gcodegen.writer().travel_to_xy(end_pos.cast<double>());
         gcodegen.set_last_pos(wipe_tower_point_to_object_point(gcodegen, end_pos));
@@ -3367,6 +3371,9 @@ std::string GCode::set_extruder(unsigned int extruder_id, double print_z)
             gcode += this->placeholder_parser_process("start_filament_gcode", start_filament_gcode, extruder_id, &config);
             check_add_eol(gcode);
         }
+        if (m_config.enable_pressure_advance.get_at(extruder_id)) {
+            gcode += m_writer.set_pressure_advance(m_config.pressure_advance.get_at(extruder_id));
+        }
         gcode += m_writer.toolchange(extruder_id);
         return gcode;
     }
@@ -3442,6 +3449,10 @@ std::string GCode::set_extruder(unsigned int extruder_id, double print_z)
     // Set the new extruder to the operating temperature.
     if (m_ooze_prevention.enable)
         gcode += m_ooze_prevention.post_toolchange(*this);
+
+    if (m_config.enable_pressure_advance.get_at(extruder_id)) {
+        gcode += m_writer.set_pressure_advance(m_config.pressure_advance.get_at(extruder_id));
+    }
 
     return gcode;
 }

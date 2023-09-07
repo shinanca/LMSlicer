@@ -967,6 +967,18 @@ void PrintConfigDef::init_fff_params()
     def->mode = comAdvanced;
     def->set_default_value(new ConfigOptionFloats { 1. });
 
+    def = this->add("enable_pressure_advance", coBools);
+    def->label = L("Enable PA/LA ");
+    def->tooltip = L("Enable pressure advance(layer advance)");
+    def->set_default_value(new ConfigOptionBools{ false });
+
+    def = this->add("pressure_advance", coFloats);
+    def->label = L("Pressure advance/Layer Advance");
+    def->tooltip = L("Pressure advance(Klipper) AKA Linear advance factor(Marlin)");
+    def->max = 2;
+    def->mode = comAdvanced;
+    def->set_default_value(new ConfigOptionFloats { 0.04 });
+
     def = this->add("extrusion_width", coFloatOrPercent);
     def->label = L("Default extrusion width");
     def->category = L("Extrusion Width");
