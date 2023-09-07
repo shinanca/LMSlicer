@@ -696,6 +696,7 @@ PRINT_CONFIG_CLASS_DEFINE(
     ((ConfigOptionStrings,             end_filament_gcode))
     ((ConfigOptionString,              extrusion_axis))
     ((ConfigOptionFloats,              extrusion_multiplier))
+    ((ConfigOptionFloats,              filament_z_offset))
     ((ConfigOptionBools,               enable_pressure_advance))
     ((ConfigOptionFloats,              pressure_advance))
     ((ConfigOptionFloats,              filament_diameter))

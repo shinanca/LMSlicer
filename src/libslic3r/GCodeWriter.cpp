@@ -221,6 +221,18 @@ std::string GCodeWriter::set_pressure_advance(double pa) const
     return gcode.str();
 }
 
+std::string GCodeWriter::set_filament_z_offset(double z_offset) const
+{
+    std::ostringstream gcode;
+    if (z_offset == 0)
+        return gcode.str();
+        if (FLAVOR_IS(gcfKlipper))
+            gcode << "SET_GCODE_OFFSET Z=" << std::setprecision(4) << z_offset << "; set Z-offset \n";
+        else
+            gcode << "M206 Z" <<std::setprecision(4)<< z_offset << "; set Z-offset\n";
+    return gcode.str();
+}
+
 std::string GCodeWriter::reset_e(bool force)
 {
     return

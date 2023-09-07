@@ -967,6 +967,13 @@ void PrintConfigDef::init_fff_params()
     def->mode = comAdvanced;
     def->set_default_value(new ConfigOptionFloats { 1. });
 
+    def = this->add("filament_z_offset", coFloats);
+    def->label = L("Filament Z offset");
+    def->tooltip = L("SET_GCODE_OFFSET. This value will be added (or subtracted) from Z Offset of printer");
+    def->sidetext = L("mm");
+    def->mode = comAdvanced;
+    def->set_default_value(new ConfigOptionFloats { 0. });
+
     def = this->add("enable_pressure_advance", coBools);
     def->label = L("Enable PA/LA ");
     def->tooltip = L("Enable pressure advance(layer advance)");
