@@ -124,6 +124,7 @@ std::string PresetHints::maximum_volumetric_flow_description(const PresetBundle 
     const auto &support_material_extrusion_width    = *print_config.option<ConfigOptionFloatOrPercent>("support_material_extrusion_width");
     const auto &top_infill_extrusion_width          = *print_config.option<ConfigOptionFloatOrPercent>("top_infill_extrusion_width");
     const auto &first_layer_speed                   = *print_config.option<ConfigOptionFloatOrPercent>("first_layer_speed");
+    const auto &first_layer_infill_speed            = *print_config.option<ConfigOptionFloatOrPercent>("first_layer_infill_speed");
 
     // Index of an extruder assigned to a feature. If set to 0, an active extruder will be used for a multi-material print.
     // If different from idx_extruder, it will not be taken into account for this hint.
@@ -157,6 +158,12 @@ std::string PresetHints::maximum_volumetric_flow_description(const PresetBundle 
             if (first_layer && first_layer_speed.value > 0)
                 // Apply the first layer limit.
                 speed_normal = first_layer_speed.get_abs_value(speed_normal);
+            return (speed_normal > 0.) ? speed_normal : speed_max;
+        };
+	    auto                              limit_infill_by_first_layer_speed = [&first_layer_infill_speed, first_layer](double speed_normal, double speed_max) {
+            if (first_layer && first_layer_infill_speed.value > 0)
+                // Apply the first layer limit.
+                speed_normal = first_layer_infill_speed.get_abs_value(speed_normal);
             return (speed_normal > 0.) ? speed_normal : speed_max;
         };
         auto test_flow =
